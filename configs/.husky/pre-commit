@@ -2,6 +2,6 @@
 
 bash << EOF
 
-echo $PATH
+echo $PWD
 
 EOF

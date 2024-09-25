@@ -1,4 +1,19 @@
 {
+  // EDITOR BOILER
+  "files.exclude": {
+    "**/.git": false,
+    "tsconfig.json": true
+  },
+  "files.associations": {
+    "**/configs/.husky/{pre,post}-*": "shellscript"
+  },
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.sortImports": "never",
+    "source.organizeImports": "never"
+  },
+
   //INTELLISENCE SUGGESTIONS
   "typescript.suggest.paths": false,
   "javascript.suggest.paths": false,
@@ -7,7 +22,6 @@
 
   // PRETTIER
   "prettier.enable": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.configPath": "./configs/prettier.config.mjs",
   "prettier.ignorePath": "./configs/.prettierignore",
   "prettier.prettierPath": "./node_modules/prettier",
@@ -21,19 +35,7 @@
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "eslint.options": {
     "overrideConfigFile": "./configs/eslint.config.mjs"
-  },
+  }
 
   //PRISMA
-
-  // EDITOR BOILER
-  "files.exclude": {
-    "**/.git": false,
-    "tsconfig.json": true
-  },
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.sortImports": "never",
-    "source.organizeImports": "never"
-  }
 }

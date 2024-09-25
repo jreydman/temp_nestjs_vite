@@ -11,6 +11,14 @@ const config = {
     "prettier-plugin-embed",
     "@trivago/prettier-plugin-sort-imports",
     "prettier-plugin-prisma",
+    "prettier-plugin-sh",
+  ],
+
+  overrides: [
+    {
+      files: ["**/.husky/{pre,post}-*", "**/.husky/{pre,post}-*.{sh,bash}"],
+      options: { parser: "sh" },
+    },
   ],
 
   //* @trivago/prettier-plugin-sort-imports
