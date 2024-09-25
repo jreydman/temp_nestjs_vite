@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "declaration": true,
+    "removeComments": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "noUnusedLocals": true,
+    "alwaysStrict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "inlineSources": false,
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "outDir": "../dist",
+    "baseUrl": "../",
+    "paths": {
+      "src/*": ["src/*"]
+    },
+    "types": ["vitest/globals"]
+  },
+  "include": ["../src/**/*"],
+  "exclude": ["../node_modules", "../dist"]
+}

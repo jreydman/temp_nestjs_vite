@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "christian-kohler.path-intellisense",
+    "Prisma.prisma",
+    "vitest.explorer"
+  ],
+  "unwantedRecommendations": []
+}
