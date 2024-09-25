@@ -14,6 +14,12 @@ const tsconfigPath = path.resolve(
   "typescript.config.json",
 );
 
+const defaultIgnoresPool = [
+  "**/node_modules/**/*",
+  "**/.git/**/*",
+  "**/generated/**/*",
+];
+
 /** @type {import("eslint").Linter.Config[]} */
 const config = [
   //----------------------------------------------------------------------
@@ -28,14 +34,14 @@ const config = [
         sourceType: "module",
         tsconfigRootDir: rootPath,
         project: tsconfigPath,
-        projectService: true,
+        // projectService: true,
       },
     },
     plugins: {
       "@typescript-eslint": typescriptEslint.plugin,
     },
     files: ["**/*.{ts,mts}"], // use TS config only for TS files
-    ignores: ["**/node_modules/*", "**/.git/*", "**/generated/*"],
+    ignores: [...defaultIgnoresPool],
   })),
   //----------------------------------------------------------------------
   {
@@ -53,13 +59,13 @@ const config = [
       "@typescript-eslint": typescriptEslint.plugin,
     },
     files: ["**/*.{ts,mts}"], // use TS config only for TS files
-    ignores: ["**/node_modules/*", "**/.git/*", "**/generated/*"],
+    ignores: [...defaultIgnoresPool],
   },
   //----------------------------------------------------------------------
   {
     ...prettierPlugin,
     name: "prettier/recommended",
-    ignores: ["**/node_modules/*", "**/.git/*", "**/generated/*"],
+    ignores: [...defaultIgnoresPool],
   },
   //----------------------------------------------------------------------
   {
@@ -75,7 +81,7 @@ const config = [
       },
     },
     files: ["**/*.{js,mjs,cjs,ts,mts}"],
-    ignores: ["**/node_modules/*", "**/.git/*", "**/generated/*"],
+    ignores: [...defaultIgnoresPool],
   },
   //----------------------------------------------------------------------
   {
@@ -93,7 +99,7 @@ const config = [
       "@darraghor/nestjs-typed": nestjsTypedPlugin,
     },
     files: ["src/**/*.{js,mjs,cjs,ts,mts}"],
-    ignores: ["**/node_modules/*", "**/.git/*", "**/generated/*"],
+    ignores: [...defaultIgnoresPool],
     rules: {
       // use nestjs-typed rules from recommended config without unworked in v9 rules
       ...Object.fromEntries(

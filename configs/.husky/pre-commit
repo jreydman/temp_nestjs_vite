@@ -1,0 +1,7 @@
+# .husky/pre-commit
+
+bash << EOF
+
+echo $PATH
+
+EOF
