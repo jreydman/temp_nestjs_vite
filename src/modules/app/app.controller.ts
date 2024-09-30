@@ -4,7 +4,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 
 import AppService from "./app.service";
 
-// @ApiTags("root")
+@ApiTags("root")
 @Controller()
 export default class AppController {
   constructor(private readonly appService: AppService) {}
@@ -15,12 +15,9 @@ export default class AppController {
     @Req() request: FastifyRequest,
     @Res() response: FastifyReply,
   ): Promise<void> {
-    return new Promise((resolve) =>
+    return new Promise((resolve, reject) =>
       setTimeout(() => {
-        const f = 1;
-        console.log(f);
-        console.log(request.ip);
-        response.code(HttpStatus.OK).send(this.appService.getHello());
+        response.code(HttpStatus.BAD_GATEWAY).send(this.appService.getHello());
 
         resolve();
       }, 5000),

@@ -1,22 +1,21 @@
 import { Controller, Get, HttpStatus, Req, Res } from "@nestjs/common";
-import { FastifyReply, FastifyRequest } from "fastify";
+import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import type { FastifyReply, FastifyRequest } from "fastify";
 
+import UserRepository from "./user.repository";
+
+@ApiTags("user")
 @Controller("user")
 export default class UserController {
+  constructor(protected readonly userRepository: UserRepository) {}
+
   @Get()
-  public async getUsers(
+  @ApiOkResponse({ status: HttpStatus.OK })
+  public async getAll(
     @Req() request: FastifyRequest,
     @Res() response: FastifyReply,
-  ): Promise<void> {
-    return new Promise((resolve) =>
-      setTimeout(() => {
-        const f = 1;
-        console.log(f);
-        console.log(request.ip);
-        response.code(HttpStatus.OK).send([]);
-
-        resolve();
-      }, 5000),
-    );
+  ): Promise<FastifyReply> {
+    const users = await this.userRepository.getAll();
+    return response.code(HttpStatus.OK).send(users);
   }
 }

@@ -1,14 +1,12 @@
-import type { INestApplication } from "@nestjs/common";
+import type { AbstractHttpAdapter } from "@nestjs/core";
 
-export default function setCORS(app: INestApplication, origin: string[]) {
-  const hosts = origin.map((host) => new RegExp(host, "i"));
-
-  app.enableCors({
+export default function setCORS(adapter: AbstractHttpAdapter) {
+  adapter.enableCors({
     origin: (origin, callback) => {
-      const allow = hosts.some((host) => host.test(origin));
-
-      callback(null, allow);
+      callback(null, ["*"]);
     },
+    methods: ["GET", "POST"],
+    exposedHeaders: "Authorization",
     credentials: true,
   });
 }

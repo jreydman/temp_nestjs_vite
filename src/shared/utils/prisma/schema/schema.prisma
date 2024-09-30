@@ -1,12 +1,12 @@
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["prismaSchemaFolder", "fullTextIndex", "fullTextSearch", "postgresqlExtensions", "views", "omitApi"]
-  output          = "../generated/client"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder", "fullTextIndex", "fullTextSearch", "postgresqlExtensions", "views", "omitApi"]
+  // output          = "../generated/client"
 }
 
 // generator jsontypes {
@@ -38,12 +38,13 @@ datasource db {
 model User {
   id String @id @default(uuid())
 
-  mail     String? @db.VarChar(80)
+  email    String? @db.VarChar(80)
   username String  @unique @db.VarChar(80)
   password String  @db.VarChar(80)
 
-  url    String? @db.VarChar(1024)
-  avatar String? @db.VarChar(1024)
+  url    String?    @db.VarChar(1024)
+  roles  UserRole[] @default([USER])
+  avatar String?    @db.VarChar(1024)
 
   socialIds Json?      @default("{}") @map("social_ids")
   apiTokens ApiToken[]
@@ -54,14 +55,25 @@ model User {
 
   lastLoginIp   String?   @map("last_login_ip")
   lastLoginTime DateTime? @map("last_login_time")
+
+  emailVerification EmailVerification?
+}
+
+model EmailVerification {
+  userId String @id @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  token  String?
+  status SignStatus @default(NONE)
 }
 
 model OAuth {
-  id       String @id @default("")
   userId   String
-  platform String
+  platform OAuthPlatform
   oauthId  String
-  user     User   @relation(fields: [userId], references: [id])
+  user     User          @relation(fields: [userId], references: [id])
+
+  @@id([userId, platform, oauthId])
 }
 
 model ApiToken {
@@ -72,4 +84,22 @@ model ApiToken {
   expired DateTime?
   name    String    @unique
   user    User      @relation(fields: [userId], references: [id])
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum SignStatus {
+  NONE
+  PENDING
+  ACTIVE
+  INACTIVE
+}
+
+enum OAuthPlatform {
+  GOOGLE
+  GITHUB
+  TWITTER
 }

@@ -40,6 +40,9 @@ const config = [
     plugins: {
       "@typescript-eslint": typescriptEslint.plugin,
     },
+    rules: {
+      "no-unused-vars": "off",
+    },
     files: ["**/*.{ts,mts}"], // use TS config only for TS files
     ignores: [...defaultIgnoresPool],
   })),
