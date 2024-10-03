@@ -1,5 +1,7 @@
 Bundle of project app:
 
+- package manager: pnpm
+
 - foundation: nestjs | +hot-module-reload
 - builder: vite
 - compiler: swc

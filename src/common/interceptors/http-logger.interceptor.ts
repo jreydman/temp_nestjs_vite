@@ -18,20 +18,23 @@ export class HTTPLoggingInterceptor implements NestInterceptor {
     const handle = next.handle();
     const request: FastifyRequest = context.switchToHttp().getRequest();
     const response: FastifyReply = context.switchToHttp().getResponse();
-    const { method, originalUrl } = request;
+
+    this.logger.log(
+      `Request: method:[${request.method}] | from:[${request.ip}] to:[${request.hostname}${request.originalUrl}]`,
+    );
 
     return handle.pipe(
       tap(() => {
         const delay = Date.now() - now;
         this.logger.log(
-          `${response.statusCode} | [${method}] ${originalUrl} - ${delay}ms`,
+          `Response: code:[${response.statusCode}] | to:[${request.ip}] - over:[${delay}ms]`,
         );
       }),
 
       catchError((error: Error) => {
         const delay = Date.now() - now;
         this.logger.log(
-          `${response.statusCode} | [${method}] ${originalUrl} - ${delay}ms`,
+          `ErrorResponse: code:[${response.statusCode}] | to:[${request.ip}] - over:[${delay}ms]`,
         );
         return throwError(() => error);
       }),

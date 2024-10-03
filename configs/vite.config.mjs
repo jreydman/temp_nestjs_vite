@@ -6,6 +6,7 @@ import { VitePluginNode } from "vite-plugin-node";
 const rootPath = path.resolve(path.dirname(import.meta.dirname));
 const srcPath = path.resolve(rootPath, "src");
 const appEntrypointPath = path.resolve(srcPath, "app.ts");
+const swcConfigPath = path.resolve(rootPath, "configs", "swc.config.json");
 
 const config = defineConfig({
   test: {
@@ -32,24 +33,7 @@ const config = defineConfig({
       exportName: "viteNodeApp",
       tsCompiler: "swc",
       swcOptions: {
-        sourceMaps: true,
-        module: {
-          type: "nodenext",
-        },
-        jsc: {
-          target: "esnext",
-          parser: {
-            syntax: "typescript",
-            decorators: true,
-            dynamicImport: true,
-          },
-          transform: {
-            legacyDecorator: true,
-            decoratorMetadata: true,
-          },
-          keepClassNames: true,
-        },
-        minify: false,
+        configFile: swcConfigPath,
       },
     }),
   ],

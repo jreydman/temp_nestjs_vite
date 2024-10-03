@@ -1,0 +1,57 @@
+layout name="vite_test_demo" {
+//--------------------------------------------------------------
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+//--------------------------------------------------------------
+    tab name="Main" focus=true split_direction="horizontal" {
+      pane name="commands flow" size="30%"
+      pane name="app process flow" size="70%" command="pnpm" {
+        args "run" "vite"
+        focus true
+      }
+    }
+//--------------------------------------------------------------
+    tab name="Testing" split_direction="horizontal" {
+      pane name="commands flow" size="30%"
+      pane name="testing flow" size="70%" command="pnpm" {
+        args "run" "test"
+        focus true
+      }
+    }
+//--------------------------------------------------------------
+    tab name="Prisma" split_direction="horizontal" {
+      pane name="client generate" command="pnpm" {
+        args "run" "prisma:generate:watch"
+      }
+      pane name="migrations" focus=true
+    }
+
+//--------------------------------------------------------------
+    tab name="Docker" split_direction="vertical" {
+      pane command="ctop" {
+
+      }
+    }
+//--------------------------------------------------------------
+    tab name="External" split_direction="vertical" {
+        pane name="eslint-inspector" command="pnpm" {
+          args "run" "eslint-inspector"
+        }
+        pane split_direction="horizontal" {
+          pane name="prisma-studio" command="pnpm" {
+            args "run" "prisma-studio"
+          }
+          pane name="compodoc" command="pnpm" {
+            args "run" "compodoc"
+          }
+        }
+    }
+//--------------------------------------------------------------
+}

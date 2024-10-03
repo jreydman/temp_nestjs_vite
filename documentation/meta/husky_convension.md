@@ -1,1 +1,1 @@
-in all hooks staged on configs/.husky
+in all hooks staged on ${PROJECT_ROOT}/configs/.husky

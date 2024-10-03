@@ -61,6 +61,9 @@ const config = [
     plugins: {
       "@typescript-eslint": typescriptEslint.plugin,
     },
+    rules: {
+      "no-empty-function": "off",
+    },
     files: ["**/*.{ts,mts}"], // use TS config only for TS files
     ignores: [...defaultIgnoresPool],
   },
