@@ -15,16 +15,16 @@ export default class PrismaService
   private readonly logger = new Logger(PrismaService.name);
 
   constructor(protected readonly configService: ConfigService) {
+    const nodeEnv = configService.get<String>("NODE_ENV") === "development";
     super({
-      log:
-        configService.get<String>("NODE_ENV") === "development"
-          ? [
-              { emit: "event", level: "query" },
-              { emit: "event", level: "error" },
-              { emit: "event", level: "info" },
-              { emit: "event", level: "warn" },
-            ]
-          : [{ emit: "event", level: "error" }],
+      log: nodeEnv
+        ? [
+            { emit: "event", level: "query" },
+            { emit: "event", level: "error" },
+            { emit: "event", level: "info" },
+            { emit: "event", level: "warn" },
+          ]
+        : [{ emit: "event", level: "error" }],
     });
   }
   onModuleInit() {
