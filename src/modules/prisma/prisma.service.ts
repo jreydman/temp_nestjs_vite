@@ -7,6 +7,8 @@ import {
 import { ConfigService } from "@nestjs/config";
 import { Prisma, PrismaClient } from "@prisma/client";
 
+import { NodeEnvKeys, ProcessEnvKeys } from "../config/config.types";
+
 @Injectable()
 export default class PrismaService
   extends PrismaClient<Prisma.PrismaClientOptions, Prisma.LogLevel>
@@ -15,17 +17,19 @@ export default class PrismaService
   private readonly logger = new Logger(PrismaService.name);
 
   constructor(protected readonly configService: ConfigService) {
-    const nodeEnv = configService.get<String>("NODE_ENV") === "development";
-    super({
-      log: nodeEnv
-        ? [
-            { emit: "event", level: "query" },
-            { emit: "event", level: "error" },
-            { emit: "event", level: "info" },
-            { emit: "event", level: "warn" },
-          ]
-        : [{ emit: "event", level: "error" }],
-    });
+    const nodeEnv = configService.get<String>(ProcessEnvKeys.NODE_ENV);
+
+    const logPool: Prisma.LogDefinition[] = [{ emit: "event", level: "error" }];
+    if (nodeEnv === NodeEnvKeys.Development || nodeEnv === NodeEnvKeys.Test) {
+      logPool.push(
+        { emit: "event", level: "query" },
+        { emit: "event", level: "error" },
+        { emit: "event", level: "info" },
+        { emit: "event", level: "warn" },
+      );
+    }
+
+    super({ log: logPool });
   }
   onModuleInit() {
     this.$connect();

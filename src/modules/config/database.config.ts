@@ -1,7 +1,7 @@
 import { registerAs } from "@nestjs/config";
 import { z } from "zod";
 
-import { ConfigKey } from "./config.types";
+import { ConfigKeys } from "./config.types";
 
 const DatabaseConfigSchema = z.object({
   DATABASE_SERVICE_HOST: z.string(),
@@ -14,9 +14,9 @@ const DatabaseConfigSchema = z.object({
   DATABASE_NAME: z.string(),
 });
 
-export type DatabaseConfig = z.infer<typeof DatabaseConfigSchema>;
+export type DatabaseConfigType = z.infer<typeof DatabaseConfigSchema>;
 
-const DatabaseConfigRegistry = registerAs(ConfigKey.Database, () => {
+const DatabaseConfigRegistry = registerAs(ConfigKeys.Database, () => {
   const environment = DatabaseConfigSchema.safeParse(process.env);
 
   if (!environment.success) {

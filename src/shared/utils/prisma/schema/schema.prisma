@@ -36,6 +36,7 @@ model User {
   username String @unique @db.VarChar(80)
   password String @db.VarChar(80)
 
+  /// @zod.string.url()
   url    String?    @db.VarChar(1024)
   roles  UserRole[] @default([USER])
   avatar String?    @db.VarChar(1024)
@@ -55,7 +56,7 @@ model User {
 
 model EmailVerification {
   userId String @id @unique
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   token  String?
   status SignStatus @default(NONE)
@@ -65,7 +66,7 @@ model OAuth {
   userId   String
   platform OAuthPlatform
   oauthId  String
-  user     User          @relation(fields: [userId], references: [id])
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, platform, oauthId])
 }
@@ -77,7 +78,7 @@ model ApiToken {
   token   String
   expired DateTime?
   name    String    @unique
-  user    User      @relation(fields: [userId], references: [id])
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum UserRole {

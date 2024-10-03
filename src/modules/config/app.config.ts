@@ -1,10 +1,12 @@
 import { registerAs } from "@nestjs/config";
 import { z } from "zod";
 
-import { ConfigKey } from "./config.types";
+import { ConfigKeys, NodeEnvKeys } from "./config.types";
 
 const AppConfigSchema = z.object({
-  NODE_ENV: z.enum(["development", "production"]).default("development"),
+  NODE_ENV: z
+    .enum([NodeEnvKeys.Development, NodeEnvKeys.Production, NodeEnvKeys.Test])
+    .default(NodeEnvKeys.Development),
 
   BACKEND_SERVICE_HOST: z.string().transform(String).default("localhost"),
 
@@ -26,9 +28,9 @@ const AppConfigSchema = z.object({
   BACKEND_API_PREFIX: z.string().optional(),
 });
 
-export type AppConfig = z.infer<typeof AppConfigSchema>;
+export type AppConfigType = z.infer<typeof AppConfigSchema>;
 
-const AppConfigRegistry = registerAs(ConfigKey.App, () => {
+const AppConfigRegistry = registerAs(ConfigKeys.App, () => {
   const environment = AppConfigSchema.safeParse(process.env);
 
   if (!environment.success) {

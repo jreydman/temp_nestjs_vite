@@ -10,7 +10,7 @@ CREATE TYPE "OAuthPlatform" AS ENUM ('GOOGLE', 'GITHUB', 'TWITTER');
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
-    "email" VARCHAR(80),
+    "email" VARCHAR(80) NOT NULL,
     "username" VARCHAR(80) NOT NULL,
     "password" VARCHAR(80) NOT NULL,
     "url" VARCHAR(1024),
@@ -56,6 +56,9 @@ CREATE TABLE "ApiToken" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
@@ -65,10 +68,10 @@ CREATE UNIQUE INDEX "EmailVerification_userId_key" ON "EmailVerification"("userI
 CREATE UNIQUE INDEX "ApiToken_name_key" ON "ApiToken"("name");
 
 -- AddForeignKey
-ALTER TABLE "EmailVerification" ADD CONSTRAINT "EmailVerification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "EmailVerification" ADD CONSTRAINT "EmailVerification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "OAuth" ADD CONSTRAINT "OAuth_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "OAuth" ADD CONSTRAINT "OAuth_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ApiToken" ADD CONSTRAINT "ApiToken_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ApiToken" ADD CONSTRAINT "ApiToken_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

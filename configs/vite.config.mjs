@@ -5,14 +5,16 @@ import { VitePluginNode } from "vite-plugin-node";
 
 const rootPath = path.resolve(path.dirname(import.meta.dirname));
 const srcPath = path.resolve(rootPath, "src");
+
 const appEntrypointPath = path.resolve(srcPath, "app.ts");
-const swcConfigPath = path.resolve(rootPath, "configs", "swc.config.json");
+const swcConfigPath = path.resolve(rootPath, "configs/swc.config.json");
+const reportsDirectoryPath = path.resolve(rootPath, "documentation/generated/coverage");
 
 const config = defineConfig({
   test: {
     globals: true,
     coverage: {
-      reportsDirectory: "documentation/generated/coverage",
+      reportsDirectory: reportsDirectoryPath,
     },
   },
   server: {
@@ -39,6 +41,7 @@ const config = defineConfig({
   ],
   optimizeDeps: {
     exclude: [
+      "bcrypt",
       "@nestjs/platform-socket.io",
       "@nestjs/websockets",
       "@nestjs/microservices",

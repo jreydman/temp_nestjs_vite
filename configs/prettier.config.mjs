@@ -2,7 +2,7 @@
  * @type {import("prettier").Config & import("@trivago/prettier-plugin-sort-imports").PrettierConfig}
  */
 const config = {
-  printWidth: 80,
+  printWidth: 120,
   semi: true,
   tabWidth: 2,
   trailingComma: "all",

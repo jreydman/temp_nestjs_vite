@@ -1,7 +1,7 @@
 import { registerAs } from "@nestjs/config";
 import { z } from "zod";
 
-import { ConfigKey } from "./config.types";
+import { ConfigKeys } from "./config.types";
 
 const JWTConfigSchema = z.object({
   JWT_ACCESS_SECRET_KEY: z.string(),
@@ -10,9 +10,9 @@ const JWTConfigSchema = z.object({
   JWT_REFRESH_SECRET_EXPIRATION_TIME: z.string(),
 });
 
-export type JWTConfig = z.infer<typeof JWTConfigSchema>;
+export type JWTConfigType = z.infer<typeof JWTConfigSchema>;
 
-const JWTConfigRegistry = registerAs(ConfigKey.JWT, () => {
+const JWTConfigRegistry = registerAs(ConfigKeys.JWT, () => {
   const environment = JWTConfigSchema.safeParse(process.env);
 
   if (!environment.success) {

@@ -29,10 +29,10 @@ export class HTTPLoggingInterceptor implements NestInterceptor {
     );
 
     return next.handle().pipe(
-      tap(() => {
+      tap((responseBody) => {
         const delay = Date.now() - now;
         this.logger.log(
-          `Response: code:[${response.statusCode}] | to:[${request.ip}] - over:[${delay}ms]\n-------body--------\n${inspect(request.body)}\n-------------------`,
+          `Response: code:[${response.statusCode}] | to:[${request.ip}] - over:[${delay}ms]\n-------body--------\n${inspect(responseBody)}\n-------------------`,
         );
       }),
 
