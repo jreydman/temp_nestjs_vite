@@ -1,12 +1,12 @@
 import { registerAs } from "@nestjs/config";
 import { z } from "zod";
 
-import { ConfigKeys, NodeEnvKeys } from "./config.types";
+import { NODE_ENV_VALUES } from "src/shared/types/config.definition";
+
+import { ConfigKeys } from "../config.definition";
 
 const AppConfigSchema = z.object({
-  NODE_ENV: z
-    .enum([NodeEnvKeys.Development, NodeEnvKeys.Production, NodeEnvKeys.Test])
-    .default(NodeEnvKeys.Development),
+  NODE_ENV: z.nativeEnum(NODE_ENV_VALUES).default(NODE_ENV_VALUES.DEVELOPMENT),
 
   BACKEND_SERVICE_HOST: z.string().transform(String).default("localhost"),
 
@@ -34,10 +34,7 @@ const AppConfigRegistry = registerAs(ConfigKeys.App, () => {
   const environment = AppConfigSchema.safeParse(process.env);
 
   if (!environment.success) {
-    console.error(
-      "❌ Invalid environment variables:",
-      environment.error.format(),
-    );
+    console.error("❌ Invalid environment variables:", environment.error.format());
     throw new Error("Invalid environment variables");
   }
 

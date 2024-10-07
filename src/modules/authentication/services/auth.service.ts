@@ -1,15 +1,14 @@
 import { Injectable } from "@nestjs/common";
 
+import PrismaService from "src/modules/prisma/services/prisma.service";
 import { User } from "src/shared/utils/prisma/generated/zod";
-
-import PrismaService from "../prisma/prisma.service";
 
 @Injectable()
 export default class AuthService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly _prismaService: PrismaService) {}
 
   public async getUserByEmail(email: User["email"]): Promise<User | null> {
-    const user = this.prismaService.user.findFirst({
+    const user = this._prismaService.user.findFirst({
       where: { email },
     });
 

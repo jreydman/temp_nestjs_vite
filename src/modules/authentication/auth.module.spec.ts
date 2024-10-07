@@ -4,24 +4,19 @@ import defineTestingPoint from "src/shared/utils/common/define-testing-point";
 
 import ConfigModule from "../config/config.module";
 import PrismaModule from "../prisma/prisma.module";
-import AuthEmailController from "./auth-email.controller";
 import AuthModule from "./auth.module";
+import AuthEmailController from "./controllers/auth-email.controller";
 
-describe(
-  defineTestingPoint({ volume: AuthModule.name, point: AuthModule.name }),
-  function () {
-    it("definition", async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        imports: [ConfigModule, PrismaModule, AuthModule],
-      }).compile();
+describe(defineTestingPoint({ volume: AuthModule.name, point: AuthModule.name }), function () {
+  it("definition", async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [ConfigModule, PrismaModule, AuthModule],
+    }).compile();
 
-      expect(module).toBeDefined();
-      expect(module.get(AuthEmailController)).toBeInstanceOf(
-        AuthEmailController,
-      );
-    });
-  },
-);
+    expect(module).toBeDefined();
+    expect(module.get(AuthEmailController)).toBeInstanceOf(AuthEmailController);
+  });
+});
 
 describe(
   defineTestingPoint({
@@ -37,8 +32,7 @@ describe(
         imports: [ConfigModule, PrismaModule, AuthModule],
       }).compile();
 
-      authEmailController =
-        module.get<AuthEmailController>(AuthEmailController);
+      authEmailController = module.get<AuthEmailController>(AuthEmailController);
 
       // const app = await NestFactory.create<NestFastifyApplication>(
       //   module,

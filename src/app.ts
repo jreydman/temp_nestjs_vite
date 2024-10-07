@@ -1,9 +1,6 @@
 import type { INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import {
-  FastifyAdapter,
-  type NestFastifyApplication,
-} from "@nestjs/platform-fastify";
+import { FastifyAdapter, type NestFastifyApplication } from "@nestjs/platform-fastify";
 
 import setGlobalPrefix from "src/common/hooks/set-global-prefix";
 import setGlobalValidation from "src/common/hooks/set-global-validation";
@@ -19,10 +16,7 @@ async function createApp(): Promise<INestApplication> {
     trustProxy: true,
   });
 
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    adapter,
-  );
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter);
 
   setShutdownhooks(app);
   setVersioning(app);

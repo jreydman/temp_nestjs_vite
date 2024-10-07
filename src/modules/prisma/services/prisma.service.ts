@@ -1,26 +1,27 @@
-import {
-  Injectable,
-  Logger,
-  OnModuleDestroy,
-  OnModuleInit,
-} from "@nestjs/common";
+import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Prisma, PrismaClient } from "@prisma/client";
 
-import { NodeEnvKeys, ProcessEnvKeys } from "../config/config.types";
+import NestConsoleLogger from "src/modules/logger/nest-console.logger";
+import { NODE_ENV_VALUES, PROCESS_ENV_KEYS } from "src/shared/types/config.definition";
 
 @Injectable()
 export default class PrismaService
   extends PrismaClient<Prisma.PrismaClientOptions, Prisma.LogLevel>
   implements OnModuleInit, OnModuleDestroy
 {
-  private readonly logger = new Logger(PrismaService.name);
+  // private readonly logger = new Logger(PrismaService.name);
 
-  constructor(protected readonly configService: ConfigService) {
-    const nodeEnv = configService.get<String>(ProcessEnvKeys.NODE_ENV);
+  constructor(
+    private readonly _configService: ConfigService,
+    private readonly logger: NestConsoleLogger,
+  ) {
+    logger.setContext(PrismaService.name);
+
+    const nodeEnv = _configService.get<string>(PROCESS_ENV_KEYS.NODE_ENV);
 
     const logPool: Prisma.LogDefinition[] = [{ emit: "event", level: "error" }];
-    if (nodeEnv === NodeEnvKeys.Development || nodeEnv === NodeEnvKeys.Test) {
+    if (nodeEnv !== NODE_ENV_VALUES.PRODUCTION) {
       logPool.push(
         { emit: "event", level: "query" },
         { emit: "event", level: "error" },

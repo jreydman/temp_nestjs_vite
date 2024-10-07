@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { RegisterUserByEmailRequestType } from "src/modules/auth/auth.definition";
+import { RegisterUserByEmailRequestType } from "src/modules/authentication/auth.definition";
 
 export function genRegisterUserByEmailRequestData(): RegisterUserByEmailRequestType {
   return {

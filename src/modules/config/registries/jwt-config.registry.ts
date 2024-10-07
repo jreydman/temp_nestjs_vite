@@ -1,7 +1,7 @@
 import { registerAs } from "@nestjs/config";
 import { z } from "zod";
 
-import { ConfigKeys } from "./config.types";
+import { ConfigKeys } from "../config.definition";
 
 const JWTConfigSchema = z.object({
   JWT_ACCESS_SECRET_KEY: z.string(),
@@ -16,10 +16,7 @@ const JWTConfigRegistry = registerAs(ConfigKeys.JWT, () => {
   const environment = JWTConfigSchema.safeParse(process.env);
 
   if (!environment.success) {
-    console.error(
-      "❌ Invalid environment variables:",
-      environment.error.format(),
-    );
+    console.error("❌ Invalid environment variables:", environment.error.format());
     throw new Error("Invalid environment variables");
   }
 
